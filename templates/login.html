@@ -1,0 +1,71 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/home-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Login</h1>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<main class="mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+
+         <form action="#" method="post">
+          <div class="container w-75">
+            <div class="row" style="width: 100%;">
+              {{form.csrf_token}}
+              
+               {% if error %}
+                <p class=error style="color: red;"> 
+                  <strong>Error:</strong> {{ error }} 
+                </p>
+              {% endif %}
+
+              <div class="col-12 py-1" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.email.label}}
+              </div>
+              <div class="col-12 pb-3" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.email(style="width:100%;")}}
+              </div>
+
+              <div class="col-12 py-1" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.password.label}}
+              </div>
+              <div class="col-12 pb-3" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.password(style="width:100%;")}}
+              </div>
+
+              
+
+              <div class="col-12 py-3" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.submit(class="btn btn-primary")}}
+              </div>
+
+              <div class="col-12 py-1" style="display: flex; flex-direction: row; justify-content: start; align-items: center;">
+                No account?&nbsp; <a class="link-primary" href="{{url_for('register')}}" style="text-decoration: underline;"> Register Now! </a> 
+              </div>
+
+            </div>
+          </div>
+         </form>
+    
+
+          
+
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,121 @@
+{% include "header.html" %}
+
+<style>
+  /* Width of the whole CKEditor box */
+  #content-area ~ .cke,
+  #content-area ~ .ck-editor {
+      width: 100% !important;
+      height: 100% !important;
+  }
+
+  
+</style>
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{post.img_url}}')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1>{{ post.title }}</h1>
+          <h2 class="subheading">{{ post.subtitle }}</h2>
+          <span class="meta"
+            >Posted by
+            <a href="#">{{ post.user.name }}</a>
+            on {{ post.date }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Post Content -->
+<article>
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        {{ post.body|safe }}
+        
+        {% if post.user_id == current_user.id %}
+        <div class="d-flex justify-content-end mb-4">
+          <!-- TODO: Editing posts-->
+          <a
+            class="btn btn-primary float-right"
+            href="{{url_for('edit_post',post_id=post.id)}}"
+            >Edit Post</a>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+<hr>
+
+
+
+
+
+
+  <div class="container px-4 px-lg-5" style="background-color: #f5f5f5; border-radius: 25px;">
+    {% if current_user.is_authenticated: %}  
+      <div class="row gx-4 gx-lg-5 justify-content-center mt-5">
+        <div class="col-md-10 col-lg-8 col-xl-7 mt-5">
+          <form action="{{ url_for('show_post', post_id=post.id) }}" method="post">
+            {{comment_form.csrf_token}}
+            <div class="row">
+              <div class="col-12">
+                {{comment_form.text.label}}
+              </div>
+  
+              <div class="col-12 mb-3 mt-2 d-flex justify-content-center" >
+                {{comment_form.text(id="content-area")}}
+              </div>
+              <div class="col-12 mb-3 mt-0 d-flex justify-content-end" >
+                {{comment_form.submit(class="btn btn-primary")}}
+              </div>
+              
+            </div>
+  
+          </form>
+            {{ ckeditor.load() }}
+            {{ ckeditor.config(name='text')}}
+        </div>
+  
+        
+  
+      </div>
+    {% endif %}
+      
+    <hr/>
+
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7 pt-4">
+        <p style="font-size: 35px;"> <strong>Comments</strong></p>
+        </div>
+    </div>
+
+
+    {% for comment in comments: %}
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-12 col-xl-7  d-flex justify-content-start align-items-center " style="height: 50px;">
+          <p style="height: auto;"> {{comment.text | safe}} </p>
+        </div>
+        <div class="col-md-12 col-lg-12 col-xl-7 d-flex justify-content-start align-items-center " style="height: 50px;" >
+          <p style="height: auto;"> by {{comment.user.name | safe}} </p>
+        </div>
+      </div>
+      <hr/>
+      {% endfor%}
+
+  </div>
+  </div>
+
+
+
+
+{% include "footer.html" %}

@@ -1,0 +1,90 @@
+{% block content %} {% include "header.html" %}
+
+<style>
+/* Width of the whole CKEditor box */
+#content-area ~ .cke,
+#content-area ~ .ck-editor {
+    width: 100% !important;
+}
+
+</style>
+
+<!-- Page Header -->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/edit-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <!-- TODO: Show a different h1 if editing existing post -->
+          {% if id == None: %}
+            <h1>Write a new blog</h1>
+          {% else %}
+             <h1>Edit your blog</h1>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <!-- TODO:-Add CKEditor and render the form here -->
+         <form action="#" method="post">
+          <div class="container w-75">
+            <div class="row" style="width: 100%;">
+              {{form.csrf_token}}
+
+              <div class="col-12 py-1" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.title.label}}
+              </div>
+              <div class="col-12 pb-3" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.title(style="width:100%;")}}
+              </div>
+
+              <div class="col-12 py-1" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.subtitle.label}}
+              </div>
+              <div class="col-12 pb-3" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.subtitle(style="width:100%;")}}
+              </div>
+
+             
+
+              <div class="col-12 py-1" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.image.label}}
+              </div>
+              <div class="col-12 pb-3" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.image(style="width:100%;")}}
+              </div>
+              
+              <div class="col-12 py-1" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.content.label}}
+              </div>
+              <div class="col-12 pb-3" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                {{ form.content(id="content-area") }}
+              </div>
+
+              <div class="col-12 py-3" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                {{form.submit(class="btn btn-primary")}}
+              </div>
+
+            </div>
+          </div>
+         </form>
+          {{ ckeditor.load() }}
+          {{ ckeditor.config(name='content') }}
+
+          
+
+      </div>
+    </div>
+  </div>
+</main>
+{% include "footer.html" %} {% endblock %}
