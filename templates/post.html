@@ -99,19 +99,23 @@
         </div>
     </div>
 
-
-    {% for comment in comments: %}
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-12 col-lg-12 col-xl-7  d-flex justify-content-start align-items-center " style="height: 50px;">
-          <p style="height: auto;"> {{comment.text | safe}} </p>
+    {% if comments: %}
+      {% for comment in comments: %}
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12 col-lg-12 col-xl-7  d-flex justify-content-start align-items-center " style="height: 50px;">
+            <p style="font-size: 1rem;"> {{comment.text | safe}} </p>
+          </div>
+          <div class="col-md-12 col-lg-12 col-xl-7 d-flex justify-content-start align-items-center " style="height: 50px;" >
+            <p style="font-size: 0.5rem;"> by {{comment.user.name | safe}} </p>
+          </div>
         </div>
-        <div class="col-md-12 col-lg-12 col-xl-7 d-flex justify-content-start align-items-center " style="height: 50px;" >
-          <p style="height: auto;"> by {{comment.user.name | safe}} </p>
-        </div>
-      </div>
-      <hr/>
+        <hr/>
       {% endfor%}
-
+    {% else: %}
+      <div class="col-md-12 col-lg-12 col-xl-7  d-flex justify-content-start align-items-center " style="height: 50px;">
+            <p style="font-size: 1rem;"> No Comments Yet</p>
+      </div>
+    {% endif %}
   </div>
   </div>
 

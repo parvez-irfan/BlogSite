@@ -269,14 +269,13 @@ def get_all_posts():
     return render_template("index.html", all_posts=reversed(posts))
 
 # TODO: Add a route so that you can click on individual posts.
-@app.route('/post/<post_id>',methods=['GET','POST'])
+@app.route('/post/<int:post_id>',methods=['GET','POST'])
 def show_post(post_id):
     # TODO: Retrieve a BlogPost from the database based on the post_id
     data = db.session.execute(db.select(BlogPost).filter_by(id=post_id)).scalar()
     requested_post = data
-    comments = (db.session.execute(db.select(Comments).filter_by(post_id=post_id)).scalars().all()[::-1]
-)
 
+    comments = (db.session.execute(db.select(Comments).filter_by(post_id=post_id)).scalars().all()[::-1])
     comment_form = CommentForm()
     print(comment_form.validate_on_submit())
     if comment_form.validate_on_submit():
@@ -288,21 +287,22 @@ def show_post(post_id):
             css_sanitizer=css_sanitizer,
             strip=True
         )
+        print('clean text: ',clean_text,type(clean_text))
+    
 
         user_id = current_user.id
+        if not clean_text == '':
+            comment = Comments(
+                text = clean_text,
+                post_id = post_id,
+                user_id = user_id,
 
-        comment = Comments(
-            text = clean_text,
-            post_id = post_id,
-            user_id = user_id,
+            )
 
-        )
-
-        db.session.add(comment)
-        db.session.commit()
+            db.session.add(comment)
+            db.session.commit()
         return redirect(url_for('show_post',post_id=post_id))
-
-
+        
 
     return render_template("post.html", post=requested_post,comment_form=comment_form,comments=comments)
 
